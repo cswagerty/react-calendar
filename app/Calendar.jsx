@@ -1,12 +1,19 @@
 import React, {Component}  from 'react'
 
 const Calendar = () => {
-	return (<Month year={2017} month={"October"} numberOfDays={31} />)
+	return (
+		<section className="calendar">
+			<Month year={2017} month={"October"} numberOfDays={31} />
+		</section>
+	)
 }
 
 class Month extends Component {
-	state = {
-		days:[]
+	constructor(props) {
+		super(props)
+		this.state = {
+			days:[]
+		}
 	}
 
 	componentDidMount() {

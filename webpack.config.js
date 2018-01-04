@@ -18,20 +18,19 @@ module.exports = {
                 use: {
                     loader: 'babel-loader',
                     options: {
-                        presets: [
-                            ['env', 
-                                { 
-                                    "modules": false,
-                                    "targets": {
-                                        "browsers": ["last 2 versions", "safari >= 7", "IE 11"]
-                                    } 
+                        presets: [ 
+                            [
+                                'env', 
+                                {
+                                    modules: "commonjs"
                                 }
-                            ]
-                            , 'react', 'stage-0'
+                            ],
+                            'react'
                         ]
                     }
                 }
-            },{
+            },
+            {
                 test: /\.scss$/,
                 use: [{
                     loader: "style-loader"
@@ -40,9 +39,11 @@ module.exports = {
                 }, {
                     loader: "sass-loader",
                     options: {
-                    includePaths: ["./src/sass/main.scss"]
+                     includePaths: ["./src/sass/main.scss"]
                 }
             }]
-        }]
+            }
+        ]
     }
+}
 };

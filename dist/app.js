@@ -61,7 +61,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "c9311824989e38e375e1"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "04092836cd5d2f47e0fb"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -10811,22 +10811,26 @@ module.exports = function(updatedModules, renewedModules) {
 
 /***/ }),
 /* 41 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom__ = __webpack_require__(45);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react_dom__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Calendar_jsx__ = __webpack_require__(54);
-//import style from './app/styles/main.scss';
 
 
+var _react = __webpack_require__(2);
 
+var _react2 = _interopRequireDefault(_react);
 
+var _reactDom = __webpack_require__(45);
 
-__WEBPACK_IMPORTED_MODULE_1_react_dom___default.a.render(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__Calendar_jsx__["a" /* default */], null), document.querySelector('main'));
+var _reactDom2 = _interopRequireDefault(_reactDom);
+
+var _Calendar = __webpack_require__(54);
+
+var _Calendar2 = _interopRequireDefault(_Calendar);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+_reactDom2.default.render(_react2.default.createElement(_Calendar2.default, null), document.querySelector('main')); //import style from './app/styles/main.scss';
 
 /***/ }),
 /* 42 */
@@ -28138,12 +28142,22 @@ module.exports = camelize;
 
 /***/ }),
 /* 54 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(2);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -28151,29 +28165,26 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-
-
 var Calendar = function Calendar() {
-	return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(Month, { year: 2017, month: "October", numberOfDays: 31 });
+	return _react2.default.createElement(
+		"section",
+		{ className: "calendar" },
+		_react2.default.createElement(Month, { year: 2017, month: "October", numberOfDays: 31 })
+	);
 };
 
 var Month = function (_Component) {
 	_inherits(Month, _Component);
 
-	function Month() {
-		var _ref;
-
-		var _temp, _this, _ret;
-
+	function Month(props) {
 		_classCallCheck(this, Month);
 
-		for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-			args[_key] = arguments[_key];
-		}
+		var _this = _possibleConstructorReturn(this, (Month.__proto__ || Object.getPrototypeOf(Month)).call(this, props));
 
-		return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Month.__proto__ || Object.getPrototypeOf(Month)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
+		_this.state = {
 			days: []
-		}, _temp), _possibleConstructorReturn(_this, _ret);
+		};
+		return _this;
 	}
 
 	_createClass(Month, [{
@@ -28190,21 +28201,21 @@ var Month = function (_Component) {
 		key: "createDays",
 		value: function createDays() {
 			return this.state.days.map(function (day) {
-				return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(Day, { value: day, key: day });
+				return _react2.default.createElement(Day, { value: day, key: day });
 			});
 		}
 	}, {
 		key: "render",
 		value: function render() {
-			return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+			return _react2.default.createElement(
 				"section",
 				{ className: "month" },
-				__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+				_react2.default.createElement(
 					"h1",
 					null,
 					this.props.month + " " + this.props.year
 				),
-				__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+				_react2.default.createElement(
 					"ul",
 					{ className: "month" },
 					this.createDays()
@@ -28214,17 +28225,17 @@ var Month = function (_Component) {
 	}]);
 
 	return Month;
-}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
+}(_react.Component);
 
 var Day = function Day(props) {
-	return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+	return _react2.default.createElement(
 		"li",
 		{ className: "day" },
 		props.value
 	);
 };
 
-/* harmony default export */ __webpack_exports__["a"] = (Calendar);
+exports.default = Calendar;
 
 /***/ })
 /******/ ]);
