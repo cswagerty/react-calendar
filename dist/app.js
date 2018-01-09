@@ -61,7 +61,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "9c2873e47cc04e62513a"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "c2b71cb1033396f9250c"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -28195,7 +28195,8 @@ var Calendar = function (_Component) {
 				monthIndex: monthIndex,
 				year: year,
 				day: day
-			}
+			},
+			days: _this.getUpdatedDays(monthIndex, year)
 		};
 		return _this;
 	}
@@ -28208,52 +28209,37 @@ var Calendar = function (_Component) {
 			return [date.getMonth(), date.getFullYear(), date.getDate()];
 		}
 	}, {
-		key: "render",
-		value: function render() {
-			return _react2.default.createElement(
-				"section",
-				{ className: "calendar" },
-				_react2.default.createElement(
-					"header",
-					null,
-					_react2.default.createElement(
-						"h1",
-						null,
-						getMonthName(this.state.selectedDate.monthIndex) + " " + this.state.selectedDate.year
-					)
-				),
-				_react2.default.createElement(Month, { selectedDate: this.state.selectedDate })
-			);
+		key: "changeMonth",
+		value: function changeMonth(direction) {
+			var _this2 = this;
+
+			this.setState(function (prevState) {
+				var selectedDate = Object.assign({}, prevState.selectedDate);
+				var monthIndexModifier = direction === "next" ? 1 : -1;
+				var monthIndex = (prevState.selectedDate.monthIndex + monthIndexModifier) % 12;
+				if (monthIndex === -1) {
+					// decrement to December of previous year
+					monthIndex = 11;
+					selectedDate.year = selectedDate.year - 1;
+				} else if (monthIndex === 0 && direction === "next") {
+					// increment year
+					selectedDate.year = selectedDate.year + 1;
+				}
+				selectedDate.monthIndex = monthIndex;
+
+				return {
+					selectedDate: selectedDate,
+					days: _this2.getUpdatedDays(monthIndex, selectedDate.year)
+				};
+			});
 		}
-	}]);
-
-	return Calendar;
-}(_react.Component);
-
-var Month = function (_Component2) {
-	_inherits(Month, _Component2);
-
-	function Month(props) {
-		_classCallCheck(this, Month);
-
-		// create list of days
-		var _this2 = _possibleConstructorReturn(this, (Month.__proto__ || Object.getPrototypeOf(Month)).call(this, props));
-
-		var _props$selectedDate = props.selectedDate,
-		    year = _props$selectedDate.year,
-		    monthIndex = _props$selectedDate.monthIndex,
-		    day = _props$selectedDate.day;
-
-		var numberOfDays = _this2.getDaysInMonth(monthIndex, year);
-		var days = _this2.getDays(numberOfDays);
-
-		_this2.state = {
-			days: days
-		};
-		return _this2;
-	}
-
-	_createClass(Month, [{
+	}, {
+		key: "getUpdatedDays",
+		value: function getUpdatedDays(monthIndex, year) {
+			var numberOfDays = this.getDaysInMonth(monthIndex, year);
+			return this.getDays(numberOfDays);
+		}
+	}, {
 		key: "getDaysInMonth",
 		value: function getDaysInMonth(monthIndex, year) {
 			// returns number of days for a given month and year
@@ -28273,29 +28259,51 @@ var Month = function (_Component2) {
 			return days;
 		}
 	}, {
-		key: "createDays",
-		value: function createDays() {
-			return this.state.days.map(function (day) {
-				return _react2.default.createElement(Day, { value: day, key: day });
-			});
-		}
-	}, {
 		key: "render",
 		value: function render() {
 			return _react2.default.createElement(
 				"section",
-				{ className: "month" },
+				{ className: "calendar" },
 				_react2.default.createElement(
-					"ul",
-					{ className: "month" },
-					this.createDays()
-				)
+					"header",
+					null,
+					_react2.default.createElement(
+						"button",
+						{ className: "previous-month", onClick: this.changeMonth.bind(this, "previous") },
+						"Previous"
+					),
+					_react2.default.createElement(
+						"h1",
+						null,
+						getMonthName(this.state.selectedDate.monthIndex) + " " + this.state.selectedDate.year
+					),
+					_react2.default.createElement(
+						"button",
+						{ className: "next-month", onClick: this.changeMonth.bind(this, "next") },
+						"Next"
+					)
+				),
+				_react2.default.createElement(Month, { selectedDate: this.state.selectedDate, days: this.state.days })
 			);
 		}
 	}]);
 
-	return Month;
+	return Calendar;
 }(_react.Component);
+
+var Month = function Month(props) {
+	return _react2.default.createElement(
+		"section",
+		{ className: "month" },
+		_react2.default.createElement(
+			"ul",
+			{ className: "month" },
+			props.days.map(function (day) {
+				return _react2.default.createElement(Day, { value: day, key: day });
+			})
+		)
+	);
+};
 
 var Day = function Day(props) {
 	return _react2.default.createElement(

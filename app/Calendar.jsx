@@ -31,7 +31,8 @@ class Calendar extends Component {
 				monthIndex: monthIndex,
 				year: year,
 				day: day
-			}
+			},
+			days: this.getUpdatedDays(monthIndex, year) 
 		}
 	}
 
@@ -40,32 +41,33 @@ class Calendar extends Component {
 		const date = new Date()
 		return [date.getMonth(), date.getFullYear(), date.getDate()]
 	}
-	
-	render() {
-		return (
-			<section className="calendar">
-				<header>
-					<h1>{`${getMonthName(this.state.selectedDate.monthIndex)} ${this.state.selectedDate.year}`}</h1>
-				</header>
-				<Month selectedDate={this.state.selectedDate} />
-			</section>
-		)
+
+	changeMonth (direction,) {
+		this.setState(prevState => {
+			let selectedDate = Object.assign({}, prevState.selectedDate)
+			const monthIndexModifier = direction === "next" ? 1 : -1;
+			let monthIndex = (prevState.selectedDate.monthIndex + monthIndexModifier) % 12 
+			if (monthIndex === -1) {
+				// decrement to December of previous year
+				monthIndex = 11
+				selectedDate.year = selectedDate.year - 1
+			} else if (monthIndex === 0 && direction === "next") {
+				// increment year
+				selectedDate.year = selectedDate.year + 1
+			}
+			selectedDate.monthIndex = monthIndex 
+			
+			return {
+				selectedDate: selectedDate,
+				days: this.getUpdatedDays(monthIndex, selectedDate.year)
+			} 
+		})
 	}
-}
 
-class Month extends Component {
-	constructor(props) {
-		super(props)
-
-		// create list of days
-		const {year, monthIndex, day} = props.selectedDate
+	getUpdatedDays(monthIndex, year) {
 		const numberOfDays = this.getDaysInMonth(monthIndex, year)
-		const days = this.getDays(numberOfDays)
-
-		this.state = {
-			days: days
-		}
-	}	
+		return this.getDays(numberOfDays)
+	}
 
 	getDaysInMonth(monthIndex, year) {
 		// returns number of days for a given month and year
@@ -81,20 +83,27 @@ class Month extends Component {
 		days = days.map((day, i) => i + 1)
 		return days
 	}
-
-	createDays() {
-		return (
-			this.state.days.map(day => <Day value={day} key={day} />)
-		)
-	}
-
+	
 	render() {
 		return (
-			<section className="month">
-				<ul className="month">{this.createDays()}</ul>
+			<section className="calendar">
+				<header>
+					<button className="previous-month" onClick={this.changeMonth.bind(this, "previous")}>Previous</button>
+					<h1>{`${getMonthName(this.state.selectedDate.monthIndex)} ${this.state.selectedDate.year}`}</h1>
+					<button className="next-month" onClick={this.changeMonth.bind(this, "next")}>Next</button>
+				</header>
+				<Month selectedDate={this.state.selectedDate} days={this.state.days} />
 			</section>
 		)
 	}
+}
+
+const Month = props =>  {	
+	return (
+		<section className="month">
+			<ul className="month">{props.days.map(day => <Day value={day} key={day} />)}</ul>
+		</section>
+	)
 }
 
 const Day = props => {
