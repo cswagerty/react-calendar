@@ -61,7 +61,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "55b1bf4d82a8562592f1"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "9c2873e47cc04e62513a"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -28151,6 +28151,8 @@ Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = __webpack_require__(5);
@@ -28165,46 +28167,93 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var Calendar = function Calendar() {
-	return _react2.default.createElement(
-		"section",
-		{ className: "calendar" },
-		_react2.default.createElement(Month, { year: 1989, monthName: "October" })
-	);
+var monthList = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+var getMonthName = function getMonthName(monthIndex) {
+	return monthList[monthIndex];
 };
 
-var Month = function (_Component) {
-	_inherits(Month, _Component);
+var Calendar = function (_Component) {
+	_inherits(Calendar, _Component);
 
-	function Month(props) {
-		_classCallCheck(this, Month);
+	function Calendar(props) {
+		_classCallCheck(this, Calendar);
 
-		var _this = _possibleConstructorReturn(this, (Month.__proto__ || Object.getPrototypeOf(Month)).call(this, props));
+		var _this = _possibleConstructorReturn(this, (Calendar.__proto__ || Object.getPrototypeOf(Calendar)).call(this, props));
 
-		var year = props.year,
-		    monthName = props.monthName;
+		var _this$getCurrentDate = _this.getCurrentDate(),
+		    _this$getCurrentDate2 = _slicedToArray(_this$getCurrentDate, 3),
+		    monthIndex = _this$getCurrentDate2[0],
+		    year = _this$getCurrentDate2[1],
+		    day = _this$getCurrentDate2[2];
 
+		// default to today's date
 
-		var monthIndex = _this.getMonthIndex(monthName);
-		var numberOfDays = _this.getDaysInMonth(monthIndex, year);
-		var days = _this.getDays(numberOfDays);
 
 		_this.state = {
-			days: days,
-			year: year,
-			month: monthIndex
+			selectedDate: {
+				monthIndex: monthIndex,
+				year: year,
+				day: day
+			}
 		};
 		return _this;
 	}
 
-	_createClass(Month, [{
-		key: "getMonthIndex",
-		value: function getMonthIndex(monthName) {
-			var monthList = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-
-			return monthList.indexOf(monthName);
+	_createClass(Calendar, [{
+		key: "getCurrentDate",
+		value: function getCurrentDate() {
+			// get today's date
+			var date = new Date();
+			return [date.getMonth(), date.getFullYear(), date.getDate()];
 		}
 	}, {
+		key: "render",
+		value: function render() {
+			return _react2.default.createElement(
+				"section",
+				{ className: "calendar" },
+				_react2.default.createElement(
+					"header",
+					null,
+					_react2.default.createElement(
+						"h1",
+						null,
+						getMonthName(this.state.selectedDate.monthIndex) + " " + this.state.selectedDate.year
+					)
+				),
+				_react2.default.createElement(Month, { selectedDate: this.state.selectedDate })
+			);
+		}
+	}]);
+
+	return Calendar;
+}(_react.Component);
+
+var Month = function (_Component2) {
+	_inherits(Month, _Component2);
+
+	function Month(props) {
+		_classCallCheck(this, Month);
+
+		// create list of days
+		var _this2 = _possibleConstructorReturn(this, (Month.__proto__ || Object.getPrototypeOf(Month)).call(this, props));
+
+		var _props$selectedDate = props.selectedDate,
+		    year = _props$selectedDate.year,
+		    monthIndex = _props$selectedDate.monthIndex,
+		    day = _props$selectedDate.day;
+
+		var numberOfDays = _this2.getDaysInMonth(monthIndex, year);
+		var days = _this2.getDays(numberOfDays);
+
+		_this2.state = {
+			days: days
+		};
+		return _this2;
+	}
+
+	_createClass(Month, [{
 		key: "getDaysInMonth",
 		value: function getDaysInMonth(monthIndex, year) {
 			// returns number of days for a given month and year
@@ -28236,11 +28285,6 @@ var Month = function (_Component) {
 			return _react2.default.createElement(
 				"section",
 				{ className: "month" },
-				_react2.default.createElement(
-					"h1",
-					null,
-					this.props.monthName + " " + this.props.year
-				),
 				_react2.default.createElement(
 					"ul",
 					{ className: "month" },

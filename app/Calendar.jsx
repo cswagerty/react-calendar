@@ -1,49 +1,71 @@
 import React, {Component}  from 'react'
 
-const Calendar = () => {
-	return (
-		<section className="calendar">
-			<Month year={1989} monthName={"October"} />
-		</section>
-	)
+const monthList = [
+	"January",
+	"February",
+	"March",
+	"April",
+	"May",
+	"June",
+	"July",
+	"August",
+	"September",
+	"October",
+	"November",
+	"December"
+]
+
+const getMonthName = monthIndex => {
+	return monthList[monthIndex]
+}
+
+class Calendar extends Component {
+	constructor(props) {
+		super(props)
+
+		const [monthIndex, year, day] = this.getCurrentDate()
+
+		// default to today's date
+		this.state = {
+			selectedDate: {
+				monthIndex: monthIndex,
+				year: year,
+				day: day
+			}
+		}
+	}
+
+	getCurrentDate() {
+		// get today's date
+		const date = new Date()
+		return [date.getMonth(), date.getFullYear(), date.getDate()]
+	}
+	
+	render() {
+		return (
+			<section className="calendar">
+				<header>
+					<h1>{`${getMonthName(this.state.selectedDate.monthIndex)} ${this.state.selectedDate.year}`}</h1>
+				</header>
+				<Month selectedDate={this.state.selectedDate} />
+			</section>
+		)
+	}
 }
 
 class Month extends Component {
 	constructor(props) {
 		super(props)
 
-		const {year, monthName} = props
-
-		const monthIndex = this.getMonthIndex(monthName)
+		// create list of days
+		const {year, monthIndex, day} = props.selectedDate
 		const numberOfDays = this.getDaysInMonth(monthIndex, year)
 		const days = this.getDays(numberOfDays)
 
-
 		this.state = {
-			days: days,
-			year: year,
-			month: monthIndex 
+			days: days
 		}
 	}	
-
-	getMonthIndex(monthName) {
-		const monthList = [
-			"January",
-			"February",
-			"March",
-			"April",
-			"May",
-			"June",
-			"July",
-			"August",
-			"September",
-			"October",
-			"November",
-			"December"
-		]
-
-		return monthList.indexOf(monthName)
-	}
 
 	getDaysInMonth(monthIndex, year) {
 		// returns number of days for a given month and year
@@ -69,7 +91,6 @@ class Month extends Component {
 	render() {
 		return (
 			<section className="month">
-				<h1>{`${this.props.monthName} ${this.props.year}`}</h1>
 				<ul className="month">{this.createDays()}</ul>
 			</section>
 		)
