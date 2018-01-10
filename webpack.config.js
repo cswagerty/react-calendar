@@ -37,10 +37,7 @@ module.exports = {
                 }, {
                     loader: "css-loader"
                 }, {
-                    loader: "sass-loader",
-                    options: {
-                     includePaths: ["./src/sass/main.scss"]
-                }
+                    loader: "sass-loader"
             }]
             }
         ]

@@ -394,7 +394,7 @@ template {
   .calendar header {
     text-align: center; }
     .calendar header h1 {
-      color: #666;
+      color: #888;
       display: inline-block;
       margin: 24px 48px; }
     .calendar header button {
