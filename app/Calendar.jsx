@@ -101,7 +101,7 @@ class Calendar extends Component {
 const Month = props =>  {	
 	return (
 		<section className="month">
-			<ul className="month">{props.days.map(day => <Day value={day} key={day} />)}</ul>
+			<ul className="days">{props.days.map(day => <Day value={day} key={day} />)}</ul>
 		</section>
 	)
 }

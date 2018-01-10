@@ -1,4 +1,3 @@
-//import style from './app/styles/main.scss';
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 
