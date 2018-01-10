@@ -24,15 +24,16 @@ class Calendar extends Component {
 		super(props)
 
 		const [monthIndex, year, day] = this.getCurrentDate()
-
+		
+		const selectedDate =  {
+			monthIndex: monthIndex,
+			year: year,
+			day: day
+		}
 		// default to today's date
 		this.state = {
-			selectedDate: {
-				monthIndex: monthIndex,
-				year: year,
-				day: day
-			},
-			days: this.getUpdatedDays(monthIndex, year) 
+			selectedDate: selectedDate,
+			days: this.getDays(selectedDate) 
 		}
 	}
 
@@ -44,29 +45,32 @@ class Calendar extends Component {
 
 	changeMonth (direction,) {
 		this.setState(prevState => {
-			let selectedDate = Object.assign({}, prevState.selectedDate)
+			let updatedSelectedDate = Object.assign({}, prevState.selectedDate)
+			let { monthIndex, year } = updatedSelectedDate
 			const monthIndexModifier = direction === "next" ? 1 : -1;
-			let monthIndex = (prevState.selectedDate.monthIndex + monthIndexModifier) % 12 
+			monthIndex = (monthIndex + monthIndexModifier) % 12 
 			if (monthIndex === -1) {
 				// decrement to December of previous year
 				monthIndex = 11
-				selectedDate.year = selectedDate.year - 1
+				updatedSelectedDate.year = year - 1
 			} else if (monthIndex === 0 && direction === "next") {
 				// increment year
-				selectedDate.year = selectedDate.year + 1
+				updatedSelectedDate.year = year + 1
 			}
-			selectedDate.monthIndex = monthIndex 
+			updatedSelectedDate.monthIndex = monthIndex 
 			
 			return {
-				selectedDate: selectedDate,
-				days: this.getUpdatedDays(monthIndex, selectedDate.year)
+				selectedDate: updatedSelectedDate,
+				days: this.getDays(updatedSelectedDate)
 			} 
 		})
 	}
 
-	getUpdatedDays(monthIndex, year) {
+	getDays(selectedDate) {
+		// returns array of numbers that represent days
+		const { monthIndex, year } = selectedDate
 		const numberOfDays = this.getDaysInMonth(monthIndex, year)
-		return this.getDays(numberOfDays)
+		return this.createDays(numberOfDays)
 	}
 
 	getDaysInMonth(monthIndex, year) {
@@ -76,13 +80,13 @@ class Calendar extends Component {
 		return date.getDate()
 	}
 
-	getDays(numberOfDays) {
-		// returns array of numbers that represent days
+	createDays(numberOfDays) {
+		// create days array that represents each day on the calendar
 		let days = new Array(numberOfDays)
 		days.fill(null)
 		days = days.map((day, i) => i + 1)
 		return days
-	}
+	}	
 	
 	render() {
 		return (

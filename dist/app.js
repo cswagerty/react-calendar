@@ -61,7 +61,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "5ed57706c29dd38a15ee"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "7996f0f07633fb21e060"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -28203,16 +28203,14 @@ var Calendar = function (_Component) {
 		    year = _this$getCurrentDate2[1],
 		    day = _this$getCurrentDate2[2];
 
-		// default to today's date
-
-
-		_this.state = {
-			selectedDate: {
-				monthIndex: monthIndex,
-				year: year,
-				day: day
-			},
-			days: _this.getUpdatedDays(monthIndex, year)
+		var selectedDate = {
+			monthIndex: monthIndex,
+			year: year,
+			day: day
+			// default to today's date
+		};_this.state = {
+			selectedDate: selectedDate,
+			days: _this.getDays(selectedDate)
 		};
 		return _this;
 	}
@@ -28230,30 +28228,37 @@ var Calendar = function (_Component) {
 			var _this2 = this;
 
 			this.setState(function (prevState) {
-				var selectedDate = Object.assign({}, prevState.selectedDate);
+				var updatedSelectedDate = Object.assign({}, prevState.selectedDate);
+				var monthIndex = updatedSelectedDate.monthIndex,
+				    year = updatedSelectedDate.year;
+
 				var monthIndexModifier = direction === "next" ? 1 : -1;
-				var monthIndex = (prevState.selectedDate.monthIndex + monthIndexModifier) % 12;
+				monthIndex = (monthIndex + monthIndexModifier) % 12;
 				if (monthIndex === -1) {
 					// decrement to December of previous year
 					monthIndex = 11;
-					selectedDate.year = selectedDate.year - 1;
+					updatedSelectedDate.year = year - 1;
 				} else if (monthIndex === 0 && direction === "next") {
 					// increment year
-					selectedDate.year = selectedDate.year + 1;
+					updatedSelectedDate.year = year + 1;
 				}
-				selectedDate.monthIndex = monthIndex;
+				updatedSelectedDate.monthIndex = monthIndex;
 
 				return {
-					selectedDate: selectedDate,
-					days: _this2.getUpdatedDays(monthIndex, selectedDate.year)
+					selectedDate: updatedSelectedDate,
+					days: _this2.getDays(updatedSelectedDate)
 				};
 			});
 		}
 	}, {
-		key: "getUpdatedDays",
-		value: function getUpdatedDays(monthIndex, year) {
+		key: "getDays",
+		value: function getDays(selectedDate) {
+			// returns array of numbers that represent days
+			var monthIndex = selectedDate.monthIndex,
+			    year = selectedDate.year;
+
 			var numberOfDays = this.getDaysInMonth(monthIndex, year);
-			return this.getDays(numberOfDays);
+			return this.createDays(numberOfDays);
 		}
 	}, {
 		key: "getDaysInMonth",
@@ -28264,9 +28269,9 @@ var Calendar = function (_Component) {
 			return date.getDate();
 		}
 	}, {
-		key: "getDays",
-		value: function getDays(numberOfDays) {
-			// returns array of numbers that represent days
+		key: "createDays",
+		value: function createDays(numberOfDays) {
+			// create days array that represents each day on the calendar
 			var days = new Array(numberOfDays);
 			days.fill(null);
 			days = days.map(function (day, i) {
