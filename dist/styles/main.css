@@ -402,18 +402,22 @@ template {
       padding: 12px 48px;
       color: #888;
       border-color: #888; }
-  .calendar .days {
-    list-style-type: none;
-    padding: 0;
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
+  .calendar .calendar-body {
     position: relative;
     left: 50%;
     transform: translateX(-50%);
     width: 80%; }
-    .calendar .days .day {
+    .calendar .calendar-body .weekday-names,
+    .calendar .calendar-body .days {
+      color: #888;
+      list-style-type: none;
+      padding: 0;
+      display: grid;
+      grid-template-columns: repeat(7, 1fr); }
+    .calendar .calendar-body .weekday-names {
+      justify-items: center; }
+    .calendar .calendar-body .day {
       border: 1px solid #bbb;
       font-family: Arial, sans-serif;
-      color: #888;
       padding: 12px;
-      min-height: 72px; }
+      min-height: 60px; }

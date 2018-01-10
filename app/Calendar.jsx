@@ -32,8 +32,7 @@ class Calendar extends Component {
 		}
 		// default to today's date
 		this.state = {
-			selectedDate: selectedDate,
-			days: this.getDays(selectedDate) 
+			selectedDate: selectedDate
 		}
 	}
 
@@ -60,12 +59,31 @@ class Calendar extends Component {
 			updatedSelectedDate.monthIndex = monthIndex 
 			
 			return {
-				selectedDate: updatedSelectedDate,
-				days: this.getDays(updatedSelectedDate)
+				selectedDate: updatedSelectedDate
 			} 
 		})
-	}
+	}	
+	
+	render() {
+		return (
+			<section className="calendar">
+				<header>
+					<button className="previous-month" onClick={this.changeMonth.bind(this, "previous")}>Previous</button>
+					<h1>{`${getMonthName(this.state.selectedDate.monthIndex)} ${this.state.selectedDate.year}`}</h1>
+					<button className="next-month" onClick={this.changeMonth.bind(this, "next")}>Next</button>
+				</header>
 
+				<section className="calendar-body">
+					<WeekdayNames />
+					<Month selectedDate={this.state.selectedDate} />
+				</section>
+			</section>
+		)
+	}
+}
+
+class Month extends Component  {
+	
 	getDays(selectedDate) {
 		// returns array of numbers that represent days
 		const { monthIndex, year } = selectedDate
@@ -86,29 +104,37 @@ class Calendar extends Component {
 		days.fill(null)
 		days = days.map((day, i) => i + 1)
 		return days
-	}	
-	
+	}
+
 	render() {
+		const { selectedDate } = this.props
+		const days = this.getDays(selectedDate)
+
 		return (
-			<section className="calendar">
-				<header>
-					<button className="previous-month" onClick={this.changeMonth.bind(this, "previous")}>Previous</button>
-					<h1>{`${getMonthName(this.state.selectedDate.monthIndex)} ${this.state.selectedDate.year}`}</h1>
-					<button className="next-month" onClick={this.changeMonth.bind(this, "next")}>Next</button>
-				</header>
-				<Month selectedDate={this.state.selectedDate} days={this.state.days} />
+			<section className="month">
+				<ul className="days">{days.map(day => <Day value={day} key={day} />)}</ul>
 			</section>
 		)
 	}
 }
 
-const Month = props =>  {	
+const WeekdayNames = () => {
+	const dayNames = [
+		"Sunday", 
+		"Monday", 
+		"Tuesday", 
+		"Wednesday", 
+		"Thursday",
+		"Friday",
+		"Saturday"
+	]
+
 	return (
-		<section className="month">
-			<ul className="days">{props.days.map(day => <Day value={day} key={day} />)}</ul>
-		</section>
+		<ul className="weekday-names">
+			{dayNames.map((dayName, i) => <li key={i}>{dayName}</li>)}
+		</ul>
 	)
-}
+}   
 
 const Day = props => {
 	return <li className="day">{props.value}</li>
