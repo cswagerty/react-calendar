@@ -390,7 +390,14 @@ template {
   display: none; }
 
 .calendar {
+  min-width: 760px;
   font-family: Arial, sans-serif; }
+  @media screen and (min-width: 760px) {
+    .calendar {
+      position: relative;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80%; } }
   .calendar header {
     text-align: center; }
     .calendar header h1 {
@@ -403,27 +410,22 @@ template {
       color: #888;
       border: 1px solid #888;
       user-select: none; }
-  .calendar .calendar-body {
-    position: relative;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 80%; }
-    .calendar .calendar-body .weekday-names,
-    .calendar .calendar-body .days {
-      color: #888;
-      list-style-type: none;
-      padding: 0;
-      display: grid;
-      grid-template-columns: repeat(7, 1fr); }
-    .calendar .calendar-body .weekday-names {
-      justify-items: center; }
-    .calendar .calendar-body .day {
-      border: 1px solid #bbb;
-      padding: 12px;
-      min-height: 60px; }
-      .calendar .calendar-body .day.today {
-        background-color: #a0c3ff;
-        border: 1px solid #333;
-        color: #333;
-        font-family: Arial, sans-serif;
-        font-weight: 700; }
+  .calendar .calendar-body .weekday-names,
+  .calendar .calendar-body .days {
+    color: #888;
+    list-style-type: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr); }
+  .calendar .calendar-body .weekday-names {
+    justify-items: center; }
+  .calendar .calendar-body .day {
+    border: 1px solid #bbb;
+    padding: 12px;
+    min-height: 60px; }
+    .calendar .calendar-body .day.today {
+      background-color: #a0c3ff;
+      border: 1px solid #333;
+      color: #333;
+      font-family: Arial, sans-serif;
+      font-weight: 700; }

@@ -5,6 +5,7 @@ $light-grey: #bbb;
 $dark-grey: #333;
 $light-blue: #a0c3ff;
 $font-family: Arial, sans-serif;
+$break-point-tablet: 760px;
 
 @mixin center() {
 	position: relative;
@@ -13,7 +14,13 @@ $font-family: Arial, sans-serif;
 }
 
 .calendar {
+	min-width: 760px;
 	font-family: $font-family;
+
+	@media screen and (min-width: $break-point-tablet) {
+		@include center();
+		width: 80%;
+	}
 
 	header {
 		text-align: center;
@@ -34,9 +41,6 @@ $font-family: Arial, sans-serif;
 	}
 	
 	.calendar-body {
-		@include center();
-		width: 80%;
-
 		.weekday-names,
 		.days {
 			color: $grey;
