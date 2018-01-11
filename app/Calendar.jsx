@@ -88,7 +88,7 @@ class Month extends Component  {
 		// returns array of numbers that represent days
 		const { monthIndex, year } = selectedDate
 		const numberOfDays = this.getDaysInMonth(monthIndex, year)
-		return this.createDays(numberOfDays)
+		return this.getDisplayedDays(selectedDate, numberOfDays)
 	}
 
 	getDaysInMonth(monthIndex, year) {
@@ -98,12 +98,24 @@ class Month extends Component  {
 		return date.getDate()
 	}
 
-	createDays(numberOfDays) {
+	getDisplayedDays(selectedDate, numberOfDays) {
 		// create days array that represents each day on the calendar
-		let days = new Array(numberOfDays)
+		let displayedDays = new Array(35)  // 7 columns x 5 rows
+		displayedDays.fill(null)
+		let days = new Array(numberOfDays)  // 7 columns x 5 rows
 		days.fill(null)
+		// shift the days so they are under the right weekday column
+		const offset = this.getDayOfWeekOffset(selectedDate)  
 		days = days.map((day, i) => i + 1)
-		return days
+
+		displayedDays.splice(offset, numberOfDays, ...days)
+
+		return displayedDays
+	}
+
+	getDayOfWeekOffset(selectedDate) {
+		const date = new Date(selectedDate.year, selectedDate.monthIndex, 1)
+		return date.getDay()
 	}
 
 	render() {
@@ -112,7 +124,7 @@ class Month extends Component  {
 
 		return (
 			<section className="month">
-				<ul className="days">{days.map(day => <Day value={day} key={day} />)}</ul>
+				<ul className="days">{days.map((day, i) => <Day value={day} key={i} />)}</ul>
 			</section>
 		)
 	}
