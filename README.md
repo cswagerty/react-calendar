@@ -11,6 +11,7 @@
 - Displays days in appropriate weekday column
 
 ## What It Looks Like
+![Screenshot](react-calendar-screenshot.png)
 
 ## Technical Highlights
 
