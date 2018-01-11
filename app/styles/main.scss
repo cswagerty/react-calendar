@@ -1,13 +1,25 @@
 @import "normalize";
 
+$grey: #888;
+$light-grey: #bbb;
+$dark-grey: #333;
+$light-blue: #a0c3ff;
+$font-family: Arial, sans-serif;
+
+@mixin center() {
+	position: relative;
+	left: 50%;
+	transform: translateX(-50%);
+}
+
 .calendar {
-	font-family: Arial, sans-serif;
+	font-family: $font-family;
 
 	header {
 		text-align: center;
 
 		h1 {
-			color: #888;
+			color: $grey;
 			display: inline-block;
 			margin: 24px 48px;	
 		}
@@ -15,21 +27,19 @@
 		button {
 		    background: none;
 		    padding: 12px 48px;
-		    color: #888;
-		    border: 1px solid #888;
+		    color: $grey;
+		    border: 1px solid $grey;
 		    user-select: none;
 		}
 	}
 	
 	.calendar-body {
-		position: relative;
-		left: 50%;
-		transform: translateX(-50%);
+		@include center();
 		width: 80%;
 
 		.weekday-names,
 		.days {
-			color: #888;
+			color: $grey;
 			list-style-type: none;
 			padding: 0;
 			display: grid;
@@ -42,10 +52,17 @@
 		}
 
 		.day {
-			border: 1px solid #bbb;
-		    font-family: Arial, sans-serif;
+			border: 1px solid $light-grey;
 			padding: 12px;
 			min-height: 60px;
+
+			&.today {
+				background-color: $light-blue;
+			    border: 1px solid $dark-grey;
+			    color: $dark-grey;
+			    font-family: $font-family;
+			    font-weight: 700;
+			}
 		}
 	}
 }

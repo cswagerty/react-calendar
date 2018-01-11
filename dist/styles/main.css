@@ -419,6 +419,11 @@ template {
       justify-items: center; }
     .calendar .calendar-body .day {
       border: 1px solid #bbb;
-      font-family: Arial, sans-serif;
       padding: 12px;
       min-height: 60px; }
+      .calendar .calendar-body .day.today {
+        background-color: #a0c3ff;
+        border: 1px solid #333;
+        color: #333;
+        font-family: Arial, sans-serif;
+        font-weight: 700; }

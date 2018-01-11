@@ -19,11 +19,17 @@ const getMonthName = monthIndex => {
 	return monthList[monthIndex]
 }
 
+const getTodaysDate = () => {
+	// get today's date
+	const date = new Date()
+	return [date.getMonth(), date.getFullYear(), date.getDate()]
+}
+
 class Calendar extends Component {
 	constructor(props) {
 		super(props)
 
-		const [monthIndex, year, day] = this.getCurrentDate()
+		const [monthIndex, year, day] = getTodaysDate()
 		
 		const selectedDate =  {
 			monthIndex: monthIndex,
@@ -34,12 +40,6 @@ class Calendar extends Component {
 		this.state = {
 			selectedDate: selectedDate
 		}
-	}
-
-	getCurrentDate() {
-		// get today's date
-		const date = new Date()
-		return [date.getMonth(), date.getFullYear(), date.getDate()]
 	}
 
 	changeMonth (direction,) {
@@ -124,7 +124,7 @@ class Month extends Component  {
 
 		return (
 			<section className="month">
-				<ul className="days">{days.map((day, i) => <Day value={day} key={i} />)}</ul>
+				<ul className="days">{days.map((day, i) => <Day selectedDate={selectedDate} day={day} key={i} />)}</ul>
 			</section>
 		)
 	}
@@ -148,8 +148,19 @@ const WeekdayNames = () => {
 	)
 }   
 
-const Day = props => {
-	return <li className="day">{props.value}</li>
+class Day extends Component {
+
+	isToday(selectedDate, day) {
+		const today = getTodaysDate()
+		const selected = [selectedDate.monthIndex, selectedDate.year, day]
+		return today.toString() === selected.toString()
+	}
+
+	render() {
+		const { selectedDate, day }  = this.props
+
+		return <li className={`day ${this.isToday(selectedDate, day) ? 'today' : ''}`}>{day}</li>
+	}
 }
 
 export default Calendar
