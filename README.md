@@ -4,6 +4,8 @@
 
 **react-calendar-example** shows techniques for building a calendar with React.
 
+[Check it out at ](https://github.com/cswagerty/react-calendar)
+
 ## What Can It Do?
 
 - Users can change the current month
