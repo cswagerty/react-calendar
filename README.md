@@ -4,7 +4,7 @@
 
 **react-calendar-example** shows techniques for building a calendar with React.
 
-[Check it out at ](https://github.com/cswagerty/react-calendar)
+Check it out at [github.com/cswagerty/react-calendar](https://github.com/cswagerty/react-calendar).
 
 ## What Can It Do?
 
